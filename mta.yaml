@@ -1,0 +1,62 @@
+ID: trial
+_schema-version: '2.1'
+version: 0.0.1
+modules:
+  - name: trialdb
+    type: hdb
+    path: trialdb
+    requires:
+      - name: hdi_trialdb
+    parameters:
+      disk-quota: 512M
+      memory: 512M
+  - name: trialjs
+    type: nodejs
+    path: trialjs
+    provides:
+      - name: trialjs_api
+        properties:
+          url: '${default-url}'
+    requires:
+      - name: trialdb
+      - name: hdi_trialdb
+      - name: uaa_trialapp
+    parameters:
+      disk-quota: 2048M
+      memory: 1024M
+  - name: trialui
+    type: html5
+    path: trialui
+    parameters:
+      disk-quota: 512M
+      memory: 1024M
+    build-parameters:
+      builder: grunt
+    requires:
+      - name: uaa_trialapp
+      - name: dest_trialapp
+      - name: trialjs_api
+        group: destinations
+        properties:
+          name: trialjs_api
+          url: '~{url}'
+          forwardAuthToken: true
+resources:
+  - name: hdi_trialdb
+    properties:
+      hdi-container-name: '${service-name}'
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hanatrial
+      service-plan: hdi-shared
+  - name: uaa_trialapp
+    parameters:
+      path: ./xs-security.json
+      service-plan: application
+      service: xsuaa
+    type: org.cloudfoundry.existing-service
+  - name: dest_trialapp
+    parameters:
+      service-plan: lite
+      service: destination
+    type: org.cloudfoundry.existing-service

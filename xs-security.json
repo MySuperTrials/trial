@@ -1,0 +1,23 @@
+{
+	"xsappname": "trial",
+	"tenant-mode": "dedicated",
+	"description": "Security profile of called application",
+	"scopes": [{
+		"name": "uaa.user",
+		"description": "UAA"
+	}, {
+		"name": "$XSAPPNAME.USER",
+		"description": "Sbadhoc User Application Scope"
+	}],
+	"role-templates": [{
+		"name": "Token_Exchange",
+		"description": "UAA",
+		"scope-references": [
+			"uaa.user"
+		]
+	}, {
+		"name": "SbadhocUser",
+		"description": "Sbadhoc User Role Template",
+		"scope-references": ["$XSAPPNAME.USER"]
+	}]
+}

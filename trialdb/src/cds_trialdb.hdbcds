@@ -1,0 +1,7 @@
+context trialapp {
+    entity books {
+        key id     : Integer generated always as identity(start with 1 increment by 1);
+            name   : String(20);
+            author : String(20);
+    }
+};

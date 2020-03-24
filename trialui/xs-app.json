@@ -1,0 +1,28 @@
+{
+	"welcomeFile": "/trialui/index.html",
+	"authenticationMethod": "route",
+	"logout": {
+		"logoutEndpoint": "/do/logout"
+	},
+	"routes": [{
+		"source": "^/Books_Odata/(.*)$",
+		"destination": "Books_Odata",
+		"csrfProtection": true,
+		"authenticationType": "xsuaa",
+		"scope": "$XSAPPNAME.USER",
+		"target": "$1"
+	}, {
+		"source": "(.*)(.xsodata)",
+		"destination": "trialjs_api",
+		"csrfProtection": true,
+		"authenticationType": "xsuaa",
+		"scope": "$XSAPPNAME.USER",
+		"target": "$1"
+	}, {
+		"source": "^/trialui/(.*)$",
+		"target": "$1",
+		"localDir": "webapp",
+		"authenticationType": "xsuaa",
+		"scope": "$XSAPPNAME.USER"
+	}]
+}

@@ -1,0 +1,5 @@
+service {
+	"trialapp.books" as "Books"
+	create using 
+	"xsjs:booksCreateMethod.xsjslib::booksCreate";
+}
